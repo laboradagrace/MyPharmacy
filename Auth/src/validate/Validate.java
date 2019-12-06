@@ -5,6 +5,7 @@
  */
 package validate;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
@@ -13,9 +14,10 @@ import java.util.regex.Pattern;
  */
 public class Validate {
 
-    private String username;
-    private String password;
+    //private String username;
+    //private String password;
     public String status;
+    public ArrayList<Medicine> cart;
     //private String confirmPassword;
 
     public boolean regValidator(String username, String password, String ConfirmPass, String age) {
@@ -59,6 +61,10 @@ public class Validate {
         }
 
         return state;
+    }
+    public void storeCart(ArrayList<Medicine> cart1){
+        this.cart = cart1;
+           
     }
     
 }

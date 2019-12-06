@@ -5,11 +5,18 @@
  */
 //import Activity.FilterHTML;
 package validate;
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
+import java.sql.Array;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -18,6 +25,7 @@ import java.util.ArrayList;
  * @author laboradagr_sd2022
  */
 public class db {
+    private int age;
     public boolean saveMedData(String brandName, String genericName, String type, double price, int quantity, String image){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -35,8 +43,6 @@ public class db {
             pstmt.setString(4,type);
             pstmt.setInt(5,quantity);
             pstmt.setString(6,image);
-            
-            ///pstmt.setString(3, SchoolName);
             pstmt.executeUpdate();
             pstmt.close();
 
@@ -143,12 +149,49 @@ public class db {
                 // true;   
             }
             if(username.equals(dbUsername) && password.equals(dbPassword)){
+                //this.age = rs.getInt("age");
                 return true;
             }
             con.close();
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e); 
         }
         return false;
     }
+
+    public int getAge() {
+        return age;
+    }
+    public boolean transaction(String username, Double totalAmount, int Age){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/dbMyPharmacy", "root", "");
+            //here sonoo is database name, root is username and password  
+            Statement stmt = con.createStatement();
+            
+            //insert data into database
+            String sqlString = "insert into transactions(username,TotalPayment,age) values (?,?,?)";
+            PreparedStatement pstmt = con.prepareStatement(sqlString);
+            pstmt.setString(1, username);
+            pstmt.setDouble(2, totalAmount);
+            //pstmt.Date(3, date);
+            pstmt.setInt(3, Age );
+            pstmt.executeUpdate();
+            pstmt.close();
+            ResultSet rs = stmt.executeQuery("select * from transactions");
+
+            while (rs.next()) {
+                System.out.println(rs.getString(1) + "  " + rs.getDouble(2)+" " + rs.getInt(3));
+            } 
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+        
+    }
+        
+    
+            
 }

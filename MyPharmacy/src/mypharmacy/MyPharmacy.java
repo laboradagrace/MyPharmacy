@@ -28,7 +28,8 @@ public class MyPharmacy extends JFrame {
 
     //data medicine information storage
     private ArrayList<Medicine> Medicines = new ArrayList<>();
-    //private ArrayList<>
+    static String CurrentUser;
+    static int CurrentUserAge;
     //validator
     Validate regValidator = new Validate();
     //connect to db
@@ -276,6 +277,8 @@ public class MyPharmacy extends JFrame {
         String password = textFieldPw.getText();
 
         if (db.findData(username, password)) {
+            MyPharmacy.CurrentUser = username;
+            MyPharmacy.CurrentUserAge = db.getAge();
             new main();
             this.dispose();
         } else {

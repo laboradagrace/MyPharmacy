@@ -6,10 +6,14 @@
 package mypharmacy;
 
 import java.awt.Color;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import validate.Medicine;
 import validate.db;
+import validate.Validate;
 
 /**
  *
@@ -18,7 +22,12 @@ import validate.db;
 public class main extends JFrame {
 
     private ArrayList<Medicine> Medicines = new ArrayList<>();
+    static ArrayList<Medicine> Mycart = new ArrayList<>();
     db db = new db();
+    static int quant1 =0;
+    static int quant2 = 0;
+    static int quant3 =0;
+    Validate storage = new Validate();
     // main panel 
     private javax.swing.JPanel MedicinePanel;
     private javax.swing.JButton PrevButton;
@@ -75,6 +84,7 @@ public class main extends JFrame {
     private javax.swing.JButton nextButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField textFieldSearch;
+   
 
     public main() {
 
@@ -91,7 +101,6 @@ public class main extends JFrame {
 //                System.out.println("error");
 //            }
 //        }
-
         backgroundPanel = new javax.swing.JPanel();
         logoutButton = new javax.swing.JButton();
         textFieldSearch = new javax.swing.JTextField();
@@ -220,15 +229,9 @@ public class main extends JFrame {
         ViewCartButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ViewCartButtonMouseClicked(evt);
-
             }
         });
-        ViewCartButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewCartButtonActionPerformed(evt);
-
-            }
-        });
+   
 
         medPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -712,16 +715,24 @@ public class main extends JFrame {
         backgroundPanel.setVisible(true);
     }
 
+    public ArrayList<Medicine> getMycart() {
+        return Mycart;
+    }
+
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+//        for(int i = 0; i< this.Mycart.size(); i++){
+//            System.out.println(Mycart.get(i));
+//        }
     }
 
     private void searchButtonMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
+        
     }
 
     private void logoutButtonMouseClicked(java.awt.event.MouseEvent evt) {
@@ -735,16 +746,11 @@ public class main extends JFrame {
     }
 
     private void addToCartButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void addToCartButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
-    private void ViewCartButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
 
     private void PrevButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
@@ -823,20 +829,68 @@ public class main extends JFrame {
     }
 
     private void ViewCartButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-        new cart();
-        this.dispose();
+        //storage.storeCart(Mycart);
+        if(main.Mycart.size() <5){
+            JOptionPane.showMessageDialog(this,
+                    "Minimum and Maximum of items must be 5" );  
+        }
+        else{
+            this.dispose();
+            new cart();
+        }
+            
+          
     }
 
     private void addToCartButton1MouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
+        
+        String generic = this.med1GenericName.getText();
+        String brand = this.med1BrandName.getText();
+        String type = this.med1MedType.getText();
+        String price1 = this.med1Price.getText();
+        Double price = Double.parseDouble(price1);
+   
+        String image = this.img1.getText();
+        Medicine m = new Medicine(generic,brand,type,price,0,image);
+        main.Mycart.add(m);
+        JOptionPane.showMessageDialog(this,
+                   main.Mycart.size() + " Added to cart" );
+        
     }
 
     private void addToCartButton2MouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
+        main.quant2++;
+        String generic = this.med2GenericName.getText();
+        String brand = this.med2BrandName.getText();
+        String type = this.med2MedType.getText();
+        String price1 = this.med2Price.getText();
+        Double price = Double.parseDouble(price1);
+        //String q = this.med2Quant.getText();
+        //int qty = Integer.parseInt(q);
+        String image = this.img2.getText();
+        Medicine m = new Medicine(generic,brand,type,price,0,image);
+        main.Mycart.add(m);
+        JOptionPane.showMessageDialog(this,
+                   main.Mycart.size() + " Added to cart" );
+        
     }
 
     private void addtoCartButton3MouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
+        main.quant3++;
+        String generic = this.med3GenericName.getText();
+        String brand = this.med3BrandName.getText();
+        String type = this.med3MedType.getText();
+        String price1 = this.med3Price.getText();
+        Double price = Double.parseDouble(price1);
+        //String q = this.med3Quant.getText();
+        //int qty = Integer.parseInt(q);
+        String image = this.img3.getText();
+        Medicine m = new Medicine(generic,brand,type,price,0,image);
+        main.Mycart.add(m);
+        JOptionPane.showMessageDialog(this,
+                   main.Mycart.size() + " Added to cart" );
+        
     }
+
+    
 }
